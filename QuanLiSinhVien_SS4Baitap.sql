@@ -109,14 +109,17 @@ having avg(m.mark)>60;
 --  Hiển thị thông tin các học viên có điểm trung bình lớn nhất
 select s.studentId,s.studentName,max((m.mark))
 from student s join mark m on s.studentId= m.studentId
+where (credit=(select max(Credit) from `subject`))
 group by s.studentId,s.studentName;
 -- Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất
 select sb.subname ,sb.credit,max(sb.credit)
 from `subject` sb
+where (credit=(select max(Credit) from `subject`))
 group by sb.subname,sb.credit;
 -- Hiển thị các thông tin môn học có điểm thi lớn nhất
 select sb.subname , max(m.mark)
 from `subject` sb join mark m on sb.subid=m.subid
+where m.mark = (select max(mark) from `mark`)
 group by sb.subname;
 -- Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
 select s.studentId,s.studentName,avg(m.mark)
